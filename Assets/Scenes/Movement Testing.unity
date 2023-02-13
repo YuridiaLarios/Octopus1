@@ -417,7 +417,7 @@ Transform:
   - {fileID: 1819483069}
   - {fileID: 1704288273}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &391428020
 MonoBehaviour:
@@ -434,7 +434,8 @@ MonoBehaviour:
   viewPoint: {fileID: 1704288273}
   mouseSensitivity: 1
   invertLook: 0
-  moveSpeed: 5
+  walkSpeed: 5
+  runSpeed: 8
   characterController: {fileID: 391428021}
 --- !u!143 &391428021
 CharacterController:
@@ -643,7 +644,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1 &744392101
 GameObject:
@@ -818,12 +819,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: 0.16373517, z: -0, w: 0.9865043}
+  m_LocalPosition: {x: 0, y: 1.4300001, z: 0.10999998}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1704288273}
+  m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &986855090
@@ -1242,8 +1243,7 @@ Transform:
   m_LocalPosition: {x: -0.00000009381648, y: 0.43000007, z: 0.10999998}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 963194228}
+  m_Children: []
   m_Father: {fileID: 391428019}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 18.848, z: 0}
@@ -1381,5 +1381,5 @@ Transform:
   - {fileID: 986855094}
   - {fileID: 744392102}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

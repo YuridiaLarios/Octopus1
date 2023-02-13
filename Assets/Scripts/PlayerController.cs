@@ -15,11 +15,12 @@ public class PlayerController : MonoBehaviour
     public float walkSpeed = 5f, runSpeed = 8f;
     private float activeMoveSpeed; // to control how much movement we are applying to player (either walking or running speed)
     private Vector3 moveDirection, movement;
+    private Camera camera; // when character dies, the respawn object is a new one, so we don't want to manually have to assign the camera to that player, cuz the game is already running
 
     public CharacterController characterController;
 
     // Start is called before the first frame update
-    void Start()
+    void Start()    
     {
  /************************************************************************************************************************************************************************/
 
@@ -28,8 +29,16 @@ public class PlayerController : MonoBehaviour
            in unity press escape key to see your mouse again and keep developing.
          */
         Cursor.lockState = CursorLockMode.Locked;
- /************************************************************************************************************************************************************************/
+        /************************************************************************************************************************************************************************/
+
+        /************************************************************************************************************************************************************************/
+        camera = Camera.main;
+
+ 
+/************************************************************************************************************************************************************************/
     }
+
+
 
 
 
@@ -87,7 +96,7 @@ public class PlayerController : MonoBehaviour
         }
   /************************************************************************************************************************************************************************/
         /*
-          Player's movement
+          Player's movement (x,z, y axis)
           In unity we move the x axis for side to side movement and z axis for forward back movement. y controls up and down movement.
           for the moment we define 0f to vertical y axis because we don't take jumping/up/down movement
         */
@@ -103,14 +112,57 @@ public class PlayerController : MonoBehaviour
             activeMoveSpeed = walkSpeed;
         }
 
+        // when you create a variable like this in the update() loop, you DO NOT make it public or private cuz it doesn't matter, it won't appear on the inspector
+        float yVelocity = movement.y;
+
         // basing movement based on z value and rotation of the player
         // it allows movement in all directions by adding both axes
         // use .normalized to prevent user from traveling at a faster speed within diagonal movement
         // use activeMoveSpeed to get player's speed
         movement = ((transform.forward * moveDirection.z) + (transform.right * moveDirection.x)).normalized * activeMoveSpeed;
 
+        // in real life once one starts falling, the velocity increases over time.
+        // When the update() loop starts, the movement.y will be storing whatever value we set last time
+        movement.y = yVelocity;
+
+        // if we don't break y velocity will keep increasing, so reset it back to 0f once the character has landed
+        if (characterController.isGrounded)
+        {
+            movement.y = 0f;
+        }
+
+        /* Player's gravity (y gravity)
+        * Do NOT remove Time.deltaTime, the behavior may look right but we are basically pushing our user to move downwards if removed.
+        */
+        movement.y += Physics.gravity.y * Time.deltaTime;
+
         // remember to multiply by Time.deltaTime which is how long it takes each frame update to happen, this allow us to have a very consistent amount of movement
         // we use characterController instead of transform directly because we want to implement the physics to collide that comes with CharacterController
         characterController.Move(movement * Time.deltaTime);
+
     }
+
+
+
+
+
+
+
+
+
+    // After we deal with any kind of normal basic stuff that we are doing we can do special things in the LateUpdate to esure they happen after everything else
+    private void LateUpdate()
+    {
+        /************************************************************************************************************************************************************************/
+        // when character dies, the respawn object is a new one, so we don't want to manually have to assign the camera to that player, cuz the game is already running
+        // we want to update the position of the camera, ensure the player has move before we update the camera
+
+        camera.transform.position = viewPoint.position;
+        camera.transform.rotation = viewPoint.rotation;
+
+        /************************************************************************************************************************************************************************/
+
+
+    }
+
 }
