@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 moveDirection, movement;
     private Camera camera; // when character dies, the respawn object is a new one, so we don't want to manually have to assign the camera to that player, cuz the game is already running
 
+    public float jumpForce = 12f, gravityModifier = 2.5f;
     public CharacterController characterController;
 
     // Start is called before the first frame update
@@ -131,10 +132,17 @@ public class PlayerController : MonoBehaviour
             movement.y = 0f;
         }
 
+        // Player's jumping. map to the space button on unity keyboard and to "y" in xbox controller
+        if (Input.GetButtonDown("Jump"))
+        {
+            movement.y = jumpForce;
+        }
+
         /* Player's gravity (y gravity)
         * Do NOT remove Time.deltaTime, the behavior may look right but we are basically pushing our user to move downwards if removed.
+        * Add a gravityModifier to make sure jumping around makes sense in the game (is not too high and too slow when falling down).
         */
-        movement.y += Physics.gravity.y * Time.deltaTime;
+        movement.y += Physics.gravity.y * Time.deltaTime * gravityModifier;
 
         // remember to multiply by Time.deltaTime which is how long it takes each frame update to happen, this allow us to have a very consistent amount of movement
         // we use characterController instead of transform directly because we want to implement the physics to collide that comes with CharacterController
