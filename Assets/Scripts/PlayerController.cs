@@ -163,6 +163,17 @@ public class PlayerController : MonoBehaviour
             // we use characterController instead of transform directly because we want to implement the physics to collide that comes with CharacterController
             characterController.Move(movement * Time.deltaTime);
         }
+
+        /************************************************************************************************************************************************************************/
+        /*
+         * Shoot when user clicks left mouse click
+         */
+        if (Input.GetMouseButtonDown(0))
+        {
+            Shoot();
+        }
+
+
         /************************************************************************************************************************************************************************/
         // allow user to lock and unlock mouse when pressing the escape key and clicking back into the game screen
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -181,7 +192,16 @@ public class PlayerController : MonoBehaviour
 
 
 
+    private void Shoot()
+    {
+        Ray ray = camera.ViewportPointToRay(new Vector3(.5f, .5f, 0f));
+        ray.origin = camera.transform.position;
 
+        if (Physics.Raycast(ray, out RaycastHit hit))
+        {
+            Debug.Log("We hit" + hit.collider.gameObject.name);
+        }
+    }
 
 
 
